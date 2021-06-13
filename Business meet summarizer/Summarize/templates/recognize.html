@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="bd-title">Recognized Audio</h1>
+<p>{{ audioObj.recognizedText }}</p>
+<h4>Summarize the text</h4>
+<p>Click on the following button to summarize the recognized text</p>
+<a class="btn btn-primary" href="{% url 'Summarize:summarizeTextView' audioObj.id %}" role="button">Summarize Text</a>
+<small class="text-muted">Click to summarize the recognized text.</small>
+{% endblock %}

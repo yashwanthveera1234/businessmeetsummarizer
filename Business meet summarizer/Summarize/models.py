@@ -1,0 +1,23 @@
+from django.db import models
+from django.conf import settings
+
+def uniqueFileName(instance, filename): # to give unique name regardless the name of uploaded file.
+    from datetime import datetime
+    filename = datetime.now().strftime('%c') + '.'  + filename.split('.')[-1]
+    return filename
+
+class AudioSummarizeModel(models.Model):
+    audioName = models.CharField(max_length = 255, default = 'Meeting Audio')
+    audioDescription = models.TextField(default = '')
+    audioFile = models.FileField(upload_to = uniqueFileName) # FileField takes a callable or a string.
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.CASCADE, default = None) # reference to user
+    isSummarized = models.BooleanField(default = False) # to know whether summarized or not.
+    isRecognized = models.BooleanField(default = False)
+    isMailSent = models.BooleanField(default = False)
+    recognizedText = models.TextField(default = '')
+    summarizedText = models.TextField(default = '')
+
+    class Meta:
+        db_table = 'AudioSummarizeModel'
+    def __str__(self):
+        return self.audioFile.name

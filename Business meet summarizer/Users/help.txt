@@ -1,0 +1,76 @@
+Requirements and Guide
+======================================================
+Forms:
+
+class UserRegisterForm(UserCreationForm):
+    email = forms.EmailField()
+    class Meta:
+        model = User
+        fields = ['username' , 'email' , 'password1' , 'password2']
+
+class MailReceiverModelForm(forms.Form):
+    name = forms.CharField(max_length = 255)
+    email = forms.EmailField()
+======================================================
+Models:
+
+MailReceiverModel(models.Model):
+    name = models.CharField(max_length=255) # receiver name
+    email = models.EmailField(max_length = 255) # receiver email id
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=None) # reference to user
+
+    class Meta:
+        unique_together = ('email', 'user')
+======================================================
+Decorators:
+
+authenticatedUser,
+unAuthenticatedUser,
+======================================================
+Urls:
+
+urlpatterns = [
+    '',  'homeView' 
+    'login/', name='loginView', unAuthenticatedUser
+    'logout/', name='logoutView', authenticatedUser
+    'register/', name='registerView', authenticatedUser
+    'profile/', name='profileView', authenticatedUser
+    'del/<int:id>', name='delReceiverView', authenticatedUser
+]
+======================================================
+Views: Requirements Only
+
+registerView(request) ->
+register.html
+UserRegisterForm,
+messages.success,
+
+homeView(request) ->
+home.html,
+
+profileView(request) ->
+profile.html,
+MailReceiverModel,
+messages.info,
+MailReceiverModelForm,
+
+delReceiverView(Request, id) ->
+MailReceiverModel,
+======================================================
+======================================================
+======================================================
+======================================================
+======================================================
+======================================================
+======================================================
+======================================================
+======================================================
+======================================================
+======================================================
+======================================================
+======================================================
+======================================================
+======================================================
+======================================================
+======================================================
+======================================================

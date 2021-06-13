@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div id="loadingGif" hidden>
+    <img src="{% static 'loading.gif' %}" alt="Loading...">
+</div>
+<div id="mainContent">
+    <h1 class="bd-title">Summarized Text</h1>
+    <p>{{ audioObj.summarizedText }}</p>
+    <h4>Send Emails</h4>
+    <p>Please Click on the following link to send emails.</p>
+    <div style="margin-top: 5px; margin-bottom: 5px;">
+        <a class="btn btn-info btn-sm" href="{% url 'Users:profileView' %}" role="button" target="_blank">Edit</a>
+        <small class="text-muted">Click to edit the recepient e-mail addresses</small>
+    </div>
+    <a id='sendEmails' class="btn btn-primary" href="{% url 'Summarize:sendMailsView' audioObj.id %}" role="button">Send Email</a>
+    <small class="text-muted">Click to send the e-mails to the intended recepients.</small>
+</div>
+<script>
+    mainContent = document.querySelector('#mainContent');
+    loadingGif = document.querySelector('#loadingGif');
+    getData = document.querySelector('#sendEmails');
+    getData.onclick = (event) => {
+        event.preventDefault();
+        loadingGif.hidden = false;
+        mainContent.hidden = true;
+        getDataFromHref(event.target.href);
+    }
+    function getDataFromHref(href){
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.querySelector("html").innerHTML = this.responseText;
+            }
+        };
+        xhttp.open("GET", href, true);
+        xhttp.send();
+    }
+</script>
+{% endblock %}

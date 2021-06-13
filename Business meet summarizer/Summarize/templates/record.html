@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+<h1 class="bd-title" id="content">Record Meeting Audio</h1>
+<p class="bd-lead">Record your meeting audio here and let us Summarize it for you.</p>
+<div id="controls">
+    <button id="start">Start</button>
+    <button id="pause" disabled>Pause</button>
+    <button id="stop" disabled>Stop</button>
+</div>
+<div style='margin-top: 5px; margin-bottom: 5px;'>
+    <span>Time Elapsed = </span>
+    <span id="min">00</span>:<span id="sec">00</span>
+</div>
+<div style='margin-top: 10px; margin-bottom: 10px;' class="row" id='hiddenDiv' hidden>
+    <div class="col-4" id="recordings-list"></div>
+    <div class="col-8">
+        <a id="anchorTag" class="btn btn-primary" role="button">Download</a>
+        <small class="text-muted">Click to download recording</small>
+    </div>
+</div>
+<form action="" method="POST">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <input id="submit" type="submit" value="Submit" disabled>
+</form>
+<div style="margin-top: 50px;">
+    <a class="btn btn-secondary" href="{% url 'Summarize:uploadView' %}" role="button">Upload</a>
+    <small class="text-muted">(or) Upload Your Meeting Audio.</small>
+</div>
+<script src="{% static 'timer.js' %}"></script>
+<script src="{% static 'recorder.js' %}"></script>
+<script src="{% static 'wavDownloadLink.js' %}"></script>
+<script src="{% static 'UploadDataLink.js' %}"></script>
+<script src="{% static 'recordBase.js' %}"></script>
+{% endblock %}

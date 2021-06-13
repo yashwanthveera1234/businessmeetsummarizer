@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% load static %}
+
+<div id="loadingGif" hidden>
+    <img src="{% static 'loading.gif' %}" alt="Loading...">
+</div>
+<div id="mainContent">
+    <h1 class="bd-title">{{ audioObj.audioName }}</h1>
+    <p class="bd-lead">{{ audioObj.audioDescription }}</p>
+    <h3>Your Audio</h3>
+    <div class="row">
+        <div class="col-4">
+            <audio src="{{ audioObj.audioFile.url }}" controls>Browser is not supported</audio>
+        </div>
+        <div class="col-4">
+            <a id='recognizeSpeech' class="btn btn-primary" href="{% url 'Summarize:recognizeTextView' audioObj.id %}" role="button">Recognize</a>
+            <small class="text-muted">Click to recognize speech.</small>
+        </div>
+        <div class="col-4">
+            <a class="btn btn-danger" href="{% url 'Summarize:delAudioView' audioObj.id %}" role="button">Delete</a>
+            <small class="text-muted">Click to delete.</small>
+        </div>
+    </div>
+</div>
+<script>
+    mainContent = document.querySelector('#mainContent');
+    recognizeSpeech = document.querySelector('#recognizeSpeech');
+    loadingGif = document.querySelector('#loadingGif');
+    recognizeSpeech.onclick = (event) => {
+        event.preventDefault();
+        mainContent.hidden = true;
+        loadingGif.hidden = false;
+        console.log("page load prevented.");  // sanity check
+        getRecognizedSpeech(event.target.href);
+    }
+    function getRecognizedSpeech(href) {
+        console.log("recognized speech is working"); // sanity check
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.querySelector("html").innerHTML = this.responseText;
+            }
+        };
+        xhttp.open("GET", href, true);
+        xhttp.send();
+    }
+</script>
+{% endblock %}

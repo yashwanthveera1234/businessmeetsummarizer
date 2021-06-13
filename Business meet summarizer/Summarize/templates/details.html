@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h3>Audio Details</h3>
+    <h3>Audio</h3>
+    <audio src="{{ audioObj.audioFile.url }}" type='audio/wav' controls>Browser is not supported.</audio>
+    <h3>Recognized Text</h3>
+    {% if audioObj.isRecognized %}
+        <p>{{ audioObj.recognizedText }}</p>
+    {% else %}
+        <a href="{% url 'Summarize:recognizeTextView' audioObj.id %}">Recognize</a>
+    {% endif %}
+    <h3>Summarized Text</h3>
+    {% if audioObj.isSummarized %}
+        <p>{{ audioObj.summarizedText }}</p>
+    {% else %}
+        <a href="{% url 'Summarize:summarizeTextView' audioObj.id %}">Summarize</a>
+    {% endif %}
+    <h3>Send Mails</h3>
+    <a href="{% url 'Summarize:sendMailsView' audioObj.id %}">Send Mails</a>
+{% endblock %}

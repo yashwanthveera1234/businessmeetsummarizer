@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <h1>Welcome, {{ request.user }}</h1>
+    <h3>Add New Mail Receiver</h3>
+    {% for msg in messages %}
+        <p>{{ msg }}</p>
+    {% endfor %}
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <input type="submit" value="Submit">
+    </form>
+    <h3>The following is the list of mail receivers.</h3>
+    <table class="table table-sm table-striped">
+        <thead>
+            <tr>
+                <th scope="col">S.No.</th>
+                <th scope="col">First</th>
+                <th scope="col">Last</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for receiver in mailReceivers %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ receiver.name }}</td>
+                <td>{{ receiver.email }}</td>
+                <td><a class="btn btn-danger btn-sm" href="{% url 'Users:delReceiverView' receiver.id %}" role="button">Delete</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </table>
+{% endblock %}

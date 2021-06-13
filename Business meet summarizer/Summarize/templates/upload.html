@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+<div>
+    <h1 class="bd-title">Upload Meeting Audio</h1>
+    <p class="bd-lead">Upload your recorded meeting audio file here and let us summarize it for you.</p>
+    <form action="" method = "POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <input type="submit" value="Upload">
+    </form>
+    <div style="margin-top: 50px;">
+        <a class="btn btn-secondary" href="{% url 'Summarize:recordView' %}" role="button">Record</a>
+        <small class="text-muted">(or) Record Your Meeting Audio.</small>
+    </div>
+</div>
+{% endblock %}
